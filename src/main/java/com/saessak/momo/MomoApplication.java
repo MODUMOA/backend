@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@MapperScan("com.saessak")
-@ComponentScan("com.saessak")
+@ComponentScan(basePackages = {"com.saessak"})
 public class MomoApplication {
 
 	public static void main(String[] args) {
