@@ -1,6 +1,6 @@
-package com.saessak.momo;
+package com.saessak.momo.global;
 
-import com.saessak.momo.mapper.TestMapper;
+import com.saessak.momo.global.mapper.TestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

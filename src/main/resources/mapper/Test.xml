@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.saessak.momo.mapper.TestMapper">
+<mapper namespace="com.saessak.momo.global.mapper.TestMapper">
     <select id="test" resultType="string">
         SELECT value
           FROM test

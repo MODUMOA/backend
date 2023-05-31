@@ -1,4 +1,4 @@
-package com.saessak.momo.mapper;
+package com.saessak.momo.global.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
