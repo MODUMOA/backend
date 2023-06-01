@@ -10,4 +10,10 @@
             #{userId}, #{userPwd}, #{nickName}, #{userName}
         )
     </insert>
+
+    <select id="selectUser" parameterType="map" resultType="userDto">
+        SELECT *
+          FROM user
+         WHERE user_id = #{userId}
+    </select>
 </mapper>
