@@ -4,46 +4,54 @@
 
 <mapper namespace="com.saessak.momo.notice.model.mapper.NoticeMapper">
 
+    <resultMap id="noticeFormMap" type="com.saessak.momo.notice.dto.NoticeForm">
+        <result column="notice_idx" property="noticeIdx"></result>
+        <result column="user_idx" property="userIdx"></result>
+        <result column="notice_title" property="noticeTitle"></result>
+        <result column="notice_content" property="noticeContent"></result>
+        <result column="date" property="date"></result>
+    </resultMap>
+
     <insert id="writeNotice" parameterType="noticeForm">
         insert into notice (
             user_idx, notice_title, notice_content, date
         ) values (
-            #{user_idx}, #{notice_title}, #{notice_content}, now()
+            #{userIdx}, #{noticeTitle}, #{noticeContent}, now()
         )
     </insert>
 
     <select id="getNoticeList" resultType="noticeForm">
-        select      notice_idx
-                  , user_idx
-                  , notice_title
-                  , notice_content
+        select      notice_idx as noticeIdx
+                  , user_idx as userIdx
+                  , notice_title as noticeTitle
+                  , notice_content as noticeContent
                   , date
 
         from        notice
     </select>
 
     <select id="getNoticeOne" resultType="noticeForm">
-        select      notice_idx
-                  , user_idx
-                  , notice_title
-                  , notice_content
+        select      notice_idx as noticeIdx
+                  , user_idx as userIdx
+                  , notice_title as noticeTitle
+                  , notice_content as noticeContent
                   , date
 
         from        notice
 
-        where       notice_idx = #{notice_idx}
+        where       notice_idx = #{noticeIdx}
     </select>
 
     <update id="modifyNotice" parameterType="noticeForm">
         update      notice
-        set         notice_title = #{notice_title}
-                  , notice_content = #{notice_content}
-        where       notice_idx = #{notice_idx}
+        set         notice_title = #{noticeTitle}
+                  , notice_content = #{noticeContent}
+        where       notice_idx = #{noticeIdx}
     </update>
 
     <delete id="deleteNotice" parameterType="int">
         delete from     notice
-        where           notice_idx = #{notice_idx}
+        where           notice_idx = #{noticeIdx}
     </delete>
 
 </mapper>

@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class NoticeForm {
-    int notice_idx;
-    int user_idx;
-    String notice_title;
-    String notice_content;
+    int noticeIdx;
+    int userIdx;
+    String noticeTitle;
+    String noticeContent;
     String date;
 }

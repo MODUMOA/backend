@@ -26,8 +26,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public NoticeForm getNoticeOne(int notice_idx) throws SQLException {
-        return noticeMapper.getNoticeOne(notice_idx);
+    public NoticeForm getNoticeOne(int noticeIdx) throws SQLException {
+        return noticeMapper.getNoticeOne(noticeIdx);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public void deleteNotice(int notice_idx) throws SQLException {
-        noticeMapper.deleteNotice(notice_idx);
+    public void deleteNotice(int noticeIdx) throws SQLException {
+        noticeMapper.deleteNotice(noticeIdx);
     }
 }

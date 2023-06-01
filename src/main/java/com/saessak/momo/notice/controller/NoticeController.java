@@ -47,11 +47,11 @@ public class NoticeController {
     }
 
     @GetMapping("/{notice_idx}")
-    public ResponseEntity<ResponseDto> noticeOne(@PathVariable("notice_idx") String notice_idx) throws Exception{
+    public ResponseEntity<ResponseDto> noticeOne(@PathVariable("notice_idx") String noticeIdx) throws Exception{
         NoticeForm noticeForm = null;
 
         try{
-             noticeForm = noticeService.getNoticeOne(Integer.parseInt(notice_idx));
+             noticeForm = noticeService.getNoticeOne(Integer.parseInt(noticeIdx));
         } catch(Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResponseDto(HttpStatus.NO_CONTENT.value(), FAIL, null));
@@ -61,7 +61,7 @@ public class NoticeController {
     }
 
     @PutMapping("/{notice_idx}")
-    public ResponseEntity<ResponseDto> updateNotice(@PathVariable("notice_idx") String notice_idx, @RequestBody NoticeForm noticeForm) throws Exception{
+    public ResponseEntity<ResponseDto> updateNotice(@PathVariable("notice_idx") String noticeIdx, @RequestBody NoticeForm noticeForm) throws Exception{
 
         try{
             noticeService.modifyNotice(noticeForm);
@@ -74,10 +74,10 @@ public class NoticeController {
     }
 
     @DeleteMapping("/{notice_idx}")
-    public ResponseEntity<ResponseDto> deleteNotice(@PathVariable("notice_idx") String notice_idx) throws Exception{
+    public ResponseEntity<ResponseDto> deleteNotice(@PathVariable("notice_idx") String noticeIdx) throws Exception{
 
         try{
-            noticeService.deleteNotice(Integer.parseInt(notice_idx));
+            noticeService.deleteNotice(Integer.parseInt(noticeIdx));
         } catch(Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResponseDto(HttpStatus.NO_CONTENT.value(), FAIL, null));
