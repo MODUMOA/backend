@@ -9,7 +9,9 @@ import java.util.Map;
 
 @Mapper
 public interface UserMapper {
-    void insertUser(SignupForm form) throws SQLException;
+    void insertUser(UserDto form) throws SQLException;
+
+    void insertUserStatus(UserDto form) throws SQLException;
 
     UserDto selectUser(Map<String, String> form) throws SQLException;
 }

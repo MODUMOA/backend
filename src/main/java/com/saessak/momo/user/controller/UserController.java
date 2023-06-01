@@ -22,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signup(@RequestBody SignupForm form) throws Exception {
+    public ResponseEntity<ResponseDto> signup(@RequestBody UserDto form) throws Exception {
 
         userService.signup(form);
         return ResponseEntity.status(HttpStatus.CREATED)
