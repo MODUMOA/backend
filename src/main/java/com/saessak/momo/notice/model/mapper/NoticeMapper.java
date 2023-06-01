@@ -17,4 +17,5 @@ public interface NoticeMapper {
     void modifyNotice(NoticeForm noticeForm) throws SQLException;
 
     void deleteNotice(int noticeIdx) throws SQLException;
+
 }

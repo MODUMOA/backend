@@ -15,4 +15,5 @@ public interface NoticeService {
     void modifyNotice(NoticeForm noticeForm) throws SQLException;
 
     void deleteNotice(int noticeIdx) throws SQLException;
+
 }
