@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.saessak.momo.notice.model.mapper.NoticeMapper">
+
+    <insert id="writeNotice" parameterType="noticeForm">
+        insert into notice (
+            user_idx, notice_title, notice_content, date
+        ) values (
+            #{user_idx}, #{notice_title}, #{notice_content}, now()
+        )
+    </insert>
+
+    <select id="getNoticeList" resultType="noticeForm">
+        select      notice_idx
+                  , user_idx
+                  , notice_title
+                  , notice_content
+                  , date
+
+        from        notice
+    </select>
+
+    <select id="getNoticeOne" resultType="noticeForm">
+        select      notice_idx
+                  , user_idx
+                  , notice_title
+                  , notice_content
+                  , date
+
+        from        notice
+
+        where       notice_idx = #{notice_idx}
+    </select>
+
+    <update id="modifyNotice" parameterType="noticeForm">
+        update      notice
+        set         notice_title = #{notice_title}
+                  , notice_content = #{notice_content}
+        where       notice_idx = #{notice_idx}
+    </update>
+
+    <delete id="deleteNotice" parameterType="int">
+        delete from     notice
+        where           notice_idx = #{notice_idx}
+    </delete>
+
+</mapper>

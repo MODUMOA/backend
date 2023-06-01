@@ -2,11 +2,13 @@ package com.saessak.momo.notice.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class NoticeDto {
-    int notice_idx;
-    int user_idx;
-    String notice_title;
-    String notice_content;
-    String date;
+    private int notice_idx;
+    private int user_idx;
+    private String notice_title;
+    private String notice_content;
+    private String date;
 }
