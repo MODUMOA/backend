@@ -8,6 +8,7 @@ import java.util.List;
 public interface NoticeService {
 
     void writeNotice(NoticeForm noticeForm) throws SQLException;
+  
     List<NoticeForm> getNoticeList() throws SQLException;
 
     NoticeForm getNoticeOne(int noticeIdx) throws SQLException;
@@ -15,4 +16,5 @@ public interface NoticeService {
     void modifyNotice(NoticeForm noticeForm) throws SQLException;
 
     void deleteNotice(int noticeIdx) throws SQLException;
+
 }
