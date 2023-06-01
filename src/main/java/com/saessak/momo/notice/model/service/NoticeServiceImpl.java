@@ -39,5 +39,4 @@ public class NoticeServiceImpl implements NoticeService {
     public void deleteNotice(int noticeIdx) throws SQLException {
         noticeMapper.deleteNotice(noticeIdx);
     }
-
 }
