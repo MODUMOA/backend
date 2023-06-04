@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class TestController {
-
+/*
     private final TestMapper mapper;
 
     @GetMapping("/test")
@@ -27,4 +27,6 @@ public class TestController {
     public String hello3() throws Exception {
         return mapper.test();
     }
+
+ */
 }
