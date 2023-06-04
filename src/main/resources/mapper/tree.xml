@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.saessak.momo.tree.model.mapper.TreeMapper">
+
+    <select id="getTreeList" resultType="treeListItem">
+        select      tree_idx as treeIdx
+                  , tree_name as treeName
+                  , tree_img as treeImg
+                  , tree_inactive_img as treeInactiveImg
+                  , weight as weight
+
+        from        tree_dictionary
+    </select>
+
+</mapper>

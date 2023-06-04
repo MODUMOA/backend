@@ -4,14 +4,6 @@
 
 <mapper namespace="com.saessak.momo.notice.model.mapper.NoticeMapper">
 
-    <resultMap id="noticeFormMap" type="com.saessak.momo.notice.dto.NoticeForm">
-        <result column="notice_idx" property="noticeIdx"></result>
-        <result column="user_idx" property="userIdx"></result>
-        <result column="notice_title" property="noticeTitle"></result>
-        <result column="notice_content" property="noticeContent"></result>
-        <result column="date" property="date"></result>
-    </resultMap>
-
     <insert id="writeNotice" parameterType="noticeForm">
         insert into notice (
             user_idx, notice_title, notice_content, date
