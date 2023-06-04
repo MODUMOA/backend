@@ -3,11 +3,30 @@
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.saessak.momo.user.model.mapper.UserMapper">
-    <insert id="insertUser" parameterType="signupForm">
+    <insert id="insertUser" parameterType="userDto" useGeneratedKeys="true" keyProperty="userIdx">
         INSERT INTO user(
             user_id, user_pwd, nickname, user_name
         ) VALUES (
             #{userId}, #{userPwd}, #{nickName}, #{userName}
         )
     </insert>
+
+    <insert id="insertUserStatus" parameterType="map">
+        INSERT INTO tree_collection(
+            user_idx, tree_idx
+        ) VALUES (
+            #{userIdx}, #{treeIdx}
+        )
+    </insert>
+
+    <select id="selectTreeCategory" resultType="int">
+        SELECT count(*)
+          FROM tree_dictionary
+    </select>
+
+    <select id="selectUser" parameterType="map" resultType="userDto">
+        SELECT *
+          FROM user
+         WHERE user_id = #{userId}
+    </select>
 </mapper>

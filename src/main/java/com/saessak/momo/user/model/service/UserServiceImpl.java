@@ -1,21 +1,52 @@
 package com.saessak.momo.user.model.service;
 
 import com.saessak.momo.user.dto.SignupForm;
+import com.saessak.momo.user.dto.UserDto;
 import com.saessak.momo.user.model.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
+    /**
+     * 회원가입 로직
+     * 무결성을 위해 Transaction + 2개의 SQL
+     */
     @Override
-    public void signup(SignupForm form) throws Exception {
-        log.info("form={}", form);
-        userMapper.insertUser(form);
+    public void signup(UserDto form) throws Exception {
 
+        // 검증로직은 미구현 (시간 많으면 할 예정
+        userMapper.insertUser(form);
+        Map<String, Integer> param = new HashMap<>();
+        param.put("userIdx", form.getUserIdx());
+
+        int cnt = userMapper.selectTreeCategory();
+        for (int i = 1; i <= cnt; i++) {
+            param.put("treeIdx", i);
+            userMapper.insertUserStatus(param);
+        }
     }
+
+    @Override
+    public UserDto login(Map<String, String> form) throws Exception {
+        log.info("form={}", form);
+        UserDto findUser = userMapper.selectUser(form);
+
+        if (findUser == null || !findUser.getUserPwd().equals(form.get("userPwd"))) {
+            return null;
+        }
+
+        return findUser;
+    }
+
 }
