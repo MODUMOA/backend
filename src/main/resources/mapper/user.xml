@@ -11,13 +11,18 @@
         )
     </insert>
 
-    <insert id="insertUserStatus" parameterType="userDto">
-        INSERT INTO experience(
-            user_idx
+    <insert id="insertUserStatus" parameterType="map">
+        INSERT INTO tree_collection(
+            user_idx, tree_idx
         ) VALUES (
-            #{userIdx}
+            #{userIdx}, #{treeIdx}
         )
     </insert>
+
+    <select id="selectTreeCategory" resultType="int">
+        SELECT count(*)
+          FROM tree_dictionary
+    </select>
 
     <select id="selectUser" parameterType="map" resultType="userDto">
         SELECT *

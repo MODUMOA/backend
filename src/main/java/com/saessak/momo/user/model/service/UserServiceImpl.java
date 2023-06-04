@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -17,11 +18,23 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
+    /**
+     * 회원가입 로직
+     * 무결성을 위해 Transaction + 2개의 SQL
+     */
     @Override
     public void signup(UserDto form) throws Exception {
-        userMapper.insertUser(form);
-        userMapper.insertUserStatus(form); // 초기 경험치 세팅
 
+        // 검증로직은 미구현 (시간 많으면 할 예정
+        userMapper.insertUser(form);
+        Map<String, Integer> param = new HashMap<>();
+        param.put("userIdx", form.getUserIdx());
+
+        int cnt = userMapper.selectTreeCategory();
+        for (int i = 1; i <= cnt; i++) {
+            param.put("treeIdx", i);
+            userMapper.insertUserStatus(param);
+        }
     }
 
     @Override
@@ -35,4 +48,5 @@ public class UserServiceImpl implements UserService {
 
         return findUser;
     }
+
 }

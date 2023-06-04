@@ -11,7 +11,9 @@ import java.util.Map;
 public interface UserMapper {
     void insertUser(UserDto form) throws SQLException;
 
-    void insertUserStatus(UserDto form) throws SQLException;
+    void insertUserStatus(Map<String, Integer> param) throws SQLException;
 
     UserDto selectUser(Map<String, String> form) throws SQLException;
+
+    int selectTreeCategory() throws SQLException;
 }
