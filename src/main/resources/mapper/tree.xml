@@ -14,4 +14,23 @@
         from        tree_dictionary
     </select>
 
+    <select id="getMyTreeList" resultType="myTreeListItem">
+        select      d.tree_idx as treeIdx
+                  , d.tree_name as treeName
+                  , d.tree_img as treeImg
+                  , d.tree_inactive_img as treeInactiveImg
+                  , d.weight as weight
+                  , c.count as count
+
+        from        tree_dictionary d
+
+        join        tree_collection c
+
+        on          c.tree_idx = d.tree_idx
+
+        where       c.user_idx = #{userIdx} and c.count != 0
+
+    </select>
+
+
 </mapper>

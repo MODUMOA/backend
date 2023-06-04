@@ -1,5 +1,6 @@
 package com.saessak.momo.tree.model.service;
 
+import com.saessak.momo.tree.dto.MyTreeListItem;
 import com.saessak.momo.tree.dto.TreeListItem;
 import com.saessak.momo.tree.model.mapper.TreeMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +19,10 @@ public class TreeServiceImpl implements TreeService{
     @Override
     public List<TreeListItem> getTreeList() throws SQLException {
         return treeMapper.getTreeList();
+    }
+
+    @Override
+    public List<MyTreeListItem> getMyTreeList(int userIdx) throws SQLException {
+        return treeMapper.getMyTreeList(userIdx);
     }
 }
