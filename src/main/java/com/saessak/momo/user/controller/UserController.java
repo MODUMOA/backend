@@ -46,5 +46,11 @@ public class UserController {
                 .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
     }
 
+    @PostMapping("/test")
+    public ResponseEntity<ResponseDto> test(@RequestBody Map<String, String> param) throws Exception {
+        log.info("param={}", param);
 
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, null));
+    }
 }
