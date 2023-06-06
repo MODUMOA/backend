@@ -9,6 +9,27 @@
          WHERE user_idx = #{userInfo} AND trash_idx = #{type} AND date = #{date}
     </select>
 
+    <select id="getNowDay" resultType="int">
+        select weekday(curdate());
+    </select>
+
+    <select id="getWeeklyEmission" parameterType="weeklyEmissionParam" resultType="int">
+        select  ifnull(max(trash_weight), 0)
+        from    trash_history
+        where   date = date_sub(curdate(), INTERVAL #{dateSub} DAY)
+            and user_idx = #{userIdx}
+            and trash_idx = #{trashIdx}
+    </select>
+
+    <select id="getPrevEmission" parameterType="prevPercentParam" resultType="int">
+        select  ifnull(sum(trash_weight), 0)
+        from    trash_history
+        where   date between  (date_sub(curdate(), INTERVAL #{startDay} DAY))
+                          and (date_sub(curdate(), INTERVAL #{endDay} DAY))
+            and user_idx = #{userIdx}
+            and trash_idx = #{trashIdx}
+    </select>
+
     <insert id="insertTodayThrowTrash">
         INSERT INTO trash_history (
             user_idx, trash_idx, trash_weight, date
@@ -22,4 +43,5 @@
            SET trash_weight = trash_weight + #{weight}
          WHERE user_idx = #{userInfo} AND trash_idx = #{type} AND date = #{date}
     </update>
+
 </mapper>
