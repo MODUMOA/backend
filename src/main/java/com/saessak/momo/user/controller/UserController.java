@@ -46,9 +46,13 @@ public class UserController {
                 .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
     }
 
-    @PostMapping("/test")
+    /**
+     * 쓰레기 분리수거 완료
+     * userIdx, type, weight
+     */
+    @PostMapping("/trash")
     public ResponseEntity<ResponseDto> test(@RequestBody Map<String, String> param) throws Exception {
-        log.info("param={}", param);
+        userService.todayThrowTrash(param);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, null));
