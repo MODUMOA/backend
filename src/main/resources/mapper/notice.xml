@@ -22,6 +22,7 @@
         FROM        notice as n
         JOIN        user as u
           ON        n.user_idx = u.user_idx
+    ORDER BY        n.notice_idx DESC
     </select>
 
     <select id="getNoticeOne" resultType="noticeForm">
