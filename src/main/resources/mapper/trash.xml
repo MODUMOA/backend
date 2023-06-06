@@ -8,8 +8,7 @@
           FROM trash_history
          WHERE user_idx = #{userInfo} AND trash_idx = #{type} AND date = #{date}
     </select>
-
-
+    
     <select id="getNowDay" resultType="int">
         select weekday(curdate());
     </select>
@@ -30,7 +29,6 @@
             and user_idx = #{userIdx}
             and trash_idx = #{trashIdx}
     </select>
-
 
     <insert id="insertTodayThrowTrash">
         INSERT INTO trash_history (
