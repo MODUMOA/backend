@@ -1,6 +1,7 @@
 package com.saessak.momo.notice.model.service;
 
 import com.saessak.momo.notice.dto.NoticeForm;
+import com.saessak.momo.notice.dto.ResponseNoticeForm;
 import com.saessak.momo.notice.model.mapper.NoticeMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public List<NoticeForm> getNoticeList() throws SQLException {
+    public List<ResponseNoticeForm> getNoticeList() throws SQLException {
         return noticeMapper.getNoticeList();
     }
 

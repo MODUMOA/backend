@@ -12,14 +12,16 @@
         )
     </insert>
 
-    <select id="getNoticeList" resultType="noticeForm">
-        select      notice_idx as noticeIdx
-                  , user_idx as userIdx
-                  , notice_title as noticeTitle
-                  , notice_content as noticeContent
+    <select id="getNoticeList" resultType="responseNoticeForm">
+        SELECT      n.notice_idx as noticeIdx
+                  , u.user_name as writename
+                  , n.notice_title as noticeTitle
+                  , n.notice_content as noticeContent
                   , date
 
-        from        notice
+        FROM        notice as n
+        JOIN        user as u
+          ON        n.user_idx = u.user_idx
     </select>
 
     <select id="getNoticeOne" resultType="noticeForm">

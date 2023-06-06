@@ -2,6 +2,7 @@ package com.saessak.momo.notice.controller;
 
 import com.saessak.momo.global.dto.ResponseDto;
 import com.saessak.momo.notice.dto.NoticeForm;
+import com.saessak.momo.notice.dto.ResponseNoticeForm;
 import com.saessak.momo.notice.model.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class NoticeController {
 
     @GetMapping()
     public ResponseEntity<ResponseDto> noticeList() throws Exception{
-        List<NoticeForm> list = null;
+        List<ResponseNoticeForm> list = null;
 
         try{
             list = noticeService.getNoticeList();
