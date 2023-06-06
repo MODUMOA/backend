@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ResponseNoticeForm {
     int noticeIdx;
-    String writeName;
+    String writerName;
     String noticeTitle;
     String noticeContent;
     String date;
