@@ -8,7 +8,7 @@
           FROM trash_history
          WHERE user_idx = #{userInfo} AND trash_idx = #{type} AND date = #{date}
     </select>
-    
+
     <select id="getNowDay" resultType="int">
         select weekday(curdate());
     </select>
