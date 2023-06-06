@@ -1,5 +1,6 @@
 package com.saessak.momo.user.model.service;
 
+import com.saessak.momo.trash.model.mapper.TrashMapper;
 import com.saessak.momo.user.dto.SignupForm;
 import com.saessak.momo.user.dto.UserDto;
 import com.saessak.momo.user.model.mapper.UserMapper;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import java.util.Map;
 @Transactional
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
+    private final TrashMapper trashMapper;
 
     /**
      * 회원가입 로직
@@ -47,6 +50,20 @@ public class UserServiceImpl implements UserService {
         }
 
         return findUser;
+    }
+
+    @Override
+    public void todayThrowTrash(Map<String, String> param) throws Exception {
+        param.put("date", String.valueOf(LocalDate.now()));
+
+        int hasData = trashMapper.getTodayThrowTrash(param);
+
+        // 오늘 이미 버린적이 있으면 update
+        if (hasData == 1) {
+            trashMapper.updateTodayThrowTrash(param);
+        } else {
+            trashMapper.insertTodayThrowTrash(param);
+        }
     }
 
 }

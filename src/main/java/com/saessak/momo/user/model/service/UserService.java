@@ -9,4 +9,6 @@ import java.util.Map;
 public interface UserService {
     void signup(UserDto form) throws Exception;
     UserDto login(Map<String, String> form) throws Exception;
+
+    void todayThrowTrash(Map<String, String> param) throws Exception;
 }
