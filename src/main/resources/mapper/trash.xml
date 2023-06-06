@@ -4,4 +4,25 @@
 
 <mapper namespace="com.saessak.momo.trash.model.mapper.TrashMapper">
 
+    <select id="getNowDay" resultType="int">
+        select weekday(curdate());
+    </select>
+
+    <select id="getWeeklyEmission" parameterType="weeklyEmissionParam" resultType="int">
+        select  ifnull(max(trash_weight), 0)
+        from    trash_history
+        where   date = date_sub(curdate(), INTERVAL #{dateSub} DAY)
+            and user_idx = #{userIdx}
+            and trash_idx = #{trashIdx}
+    </select>
+
+    <select id="getPrevEmission" parameterType="prevPercentParam" resultType="int">
+        select  ifnull(sum(trash_weight), 0)
+        from    trash_history
+        where   date between  (date_sub(curdate(), INTERVAL #{startDay} DAY))
+                          and (date_sub(curdate(), INTERVAL #{endDay} DAY))
+            and user_idx = #{userIdx}
+            and trash_idx = #{trashIdx}
+    </select>
+
 </mapper>
