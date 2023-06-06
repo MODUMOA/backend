@@ -14,7 +14,7 @@
 
     <select id="getNoticeList" resultType="responseNoticeForm">
         SELECT      n.notice_idx as noticeIdx
-                  , u.user_name as writename
+                  , u.user_name as writerName
                   , n.notice_title as noticeTitle
                   , n.notice_content as noticeContent
                   , date
