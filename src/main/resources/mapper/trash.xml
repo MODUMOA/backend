@@ -3,6 +3,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.saessak.momo.trash.model.mapper.TrashMapper">
+    <select id="getTodayThrowTrash" resultType="int">
+        SELECT count(*)
+          FROM trash_history
+         WHERE user_idx = #{userInfo} AND trash_idx = #{type} AND date = #{date}
+    </select>
+
 
     <select id="getNowDay" resultType="int">
         select weekday(curdate());
@@ -24,5 +30,20 @@
             and user_idx = #{userIdx}
             and trash_idx = #{trashIdx}
     </select>
+
+
+    <insert id="insertTodayThrowTrash">
+        INSERT INTO trash_history (
+            user_idx, trash_idx, trash_weight, date
+        ) VALUES (
+            #{userInfo}, #{type}, #{weight}, #{date}
+        )
+    </insert>
+
+    <update id="updateTodayThrowTrash">
+        UPDATE trash_history
+           SET trash_weight = trash_weight + #{weight}
+         WHERE user_idx = #{userInfo} AND trash_idx = #{type} AND date = #{date}
+    </update>
 
 </mapper>
