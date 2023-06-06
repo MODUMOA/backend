@@ -2,13 +2,17 @@ package com.saessak.momo.notice.controller;
 
 import com.saessak.momo.global.dto.ResponseDto;
 import com.saessak.momo.notice.dto.NoticeForm;
+import com.saessak.momo.notice.dto.ResponseNoticeForm;
 import com.saessak.momo.notice.model.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -35,7 +39,7 @@ public class NoticeController {
 
     @GetMapping()
     public ResponseEntity<ResponseDto> noticeList() throws Exception{
-        List<NoticeForm> list = null;
+        List<ResponseNoticeForm> list = null;
 
         try{
             list = noticeService.getNoticeList();
@@ -43,11 +47,16 @@ public class NoticeController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResponseDto(HttpStatus.NO_CONTENT.value(), FAIL, null));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, list));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", list);
+        result.put("totalCnt", list.size());
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
     }
 
     @GetMapping("/{notice_idx}")
-    public ResponseEntity<ResponseDto> noticeOne(@PathVariable("notice_idx") String noticeIdx) throws Exception{
+    public ResponseEntity<ResponseDto> noticeOne(@PathVariable("notice_idx") String noticeIdx) throws Exception {
         NoticeForm noticeForm = null;
 
         try{
