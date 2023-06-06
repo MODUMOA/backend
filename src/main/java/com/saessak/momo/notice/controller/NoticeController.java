@@ -48,7 +48,7 @@ public class NoticeController {
     }
 
     @GetMapping("/{notice_idx}")
-    public ResponseEntity<ResponseDto> noticeOne(@PathVariable("notice_idx") String noticeIdx) throws Exception{
+    public ResponseEntity<ResponseDto> noticeOne(@PathVariable("notice_idx") String noticeIdx) throws Exception {
         NoticeForm noticeForm = null;
 
         try{

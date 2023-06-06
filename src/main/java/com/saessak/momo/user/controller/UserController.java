@@ -41,6 +41,8 @@ public class UserController {
         result.put("userId", loginUser.getUserId());
         result.put("nickname", loginUser.getNickName());
         result.put("userName", loginUser.getUserName());
+        result.put("level", loginUser.getLevel());
+        result.put("exp", loginUser.getExp());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
