@@ -140,4 +140,13 @@
                     payment_idx = #{paymentIdx};
     </select>
 
+    <update id="updatePaymentStatus" parameterType="paymentStatusItem">
+        update      payment
+        set
+                    status = #{status}
+        where
+                    payment_idx = #{paymentIdx};
+
+    </update>
+
 </mapper>

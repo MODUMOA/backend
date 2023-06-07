@@ -3,6 +3,7 @@ package com.saessak.momo.payment.controller;
 import com.saessak.momo.global.dto.ResponseDto;
 import com.saessak.momo.payment.dto.PaymentDetailItem;
 import com.saessak.momo.payment.dto.PaymentItem;
+import com.saessak.momo.payment.dto.PaymentStatusItem;
 import com.saessak.momo.payment.dto.TotalPriceItem;
 import com.saessak.momo.payment.model.service.PaymentService;
 import com.saessak.momo.trash.dto.TrashHistoryItem;
@@ -26,22 +27,22 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping()
-    public ResponseEntity<ResponseDto> updateStatus() throws Exception{
+    public ResponseEntity<ResponseDto> updateStatus() throws Exception {
 
-        try{
+        try {
             // 1. 오늘 쓰레기 버린 전체 userIdx 리스트 받아오기
             List<Integer> users = paymentService.getTodayUsers();
 
 
             // 2. userIdx 별로 payment 테이블에 insert 하기
-            for(int user : users){
+            for (int user : users) {
                 paymentService.createPayment(user);
             }
 
             // 3. trash_history 테이블에서 오늘 날짜 데이터들 가져오기
             List<TrashHistoryItem> trashHistoryItemList = paymentService.getTrashHistory();
 
-            for(TrashHistoryItem item : trashHistoryItemList){
+            for (TrashHistoryItem item : trashHistoryItemList) {
 
                 // 4. payment 테이블에서 paymentIdx 받아오기
                 int paymentIdx = paymentService.getPaymentIdx(item.getUserIdx());
@@ -59,7 +60,7 @@ public class PaymentController {
                 paymentDetailItem.setPaymentIdx(paymentIdx);
                 paymentDetailItem.setTrashIdx(trashIdx);
                 paymentDetailItem.setTrashWeight(trashWeight);
-                paymentDetailItem.setPrice((double)trashWeight * price);
+                paymentDetailItem.setPrice((double) trashWeight * price);
 
                 // 5 - 3) insert
                 paymentService.createPaymentDetail(paymentDetailItem);
@@ -67,7 +68,7 @@ public class PaymentController {
                 // 6. payment 테이블 total_price UPDATE
                 TotalPriceItem totalPriceItem = new TotalPriceItem();
                 totalPriceItem.setPaymentIdx(paymentIdx);
-                totalPriceItem.setPrice((double)trashWeight * price);
+                totalPriceItem.setPrice((double) trashWeight * price);
 
                 paymentService.updateTotalPrice(totalPriceItem);
 
@@ -80,15 +81,13 @@ public class PaymentController {
                 int standard = 0;   // 평균 배출량
                 double mul = 0;
 
-                if(trashIdx == 1){
+                if (trashIdx == 1) {
                     standard = 318;
                     mul = 1.08;
-                }
-                else if(trashIdx == 2){
+                } else if (trashIdx == 2) {
                     standard = 249;
                     mul = 1.08;
-                }
-                else if(trashIdx == 3){
+                } else if (trashIdx == 3) {
                     standard = 283;
                     mul = 2.75;
                 }
@@ -98,24 +97,24 @@ public class PaymentController {
                 userExpItem.setUserIdx(item.getUserIdx());
 
                 // 3. list 개수 1개인 경우 바로 user 테이블 update
-                if(list.size() == 1){
+                if (list.size() == 1) {
                     TrashHistoryItem today = list.get(0);
 
                     // 3 - 1) exp 계산
-                    int exp = (int)((standard - today.getTrashWeight()) * mul);
+                    int exp = (int) ((standard - today.getTrashWeight()) * mul);
                     userExpItem.setExp(exp);
 
                     paymentService.updateUserExp(userExpItem);
                 }
                 // 4. list 개수 2개인 경우
-                else if(list.size() == 2){
+                else if (list.size() == 2) {
                     // 4 - 1) 두 날짜 비교
                     int diff = paymentService.getDateDiff(list.get(0).getDate(), list.get(1).getDate());
 
                     // 날짜 차이만큼 반복해서 user 테이블 update
-                    for(int i=0; i<diff; i++){
+                    for (int i = 0; i < diff; i++) {
                         // 하루에 들어갈 양은 trashWeight / diff
-                        int exp = (int)((standard - (list.get(0).getTrashWeight() / diff)) * mul);
+                        int exp = (int) ((standard - (list.get(0).getTrashWeight() / diff)) * mul);
                         userExpItem.setExp(exp);
 
                         paymentService.updateUserExp(userExpItem);
@@ -125,7 +124,7 @@ public class PaymentController {
                 // 5. userExp UPDATE 후 10000 넘으면
                 int exp = paymentService.getUserExp(item.getUserIdx());
 
-                if(exp >= 10000){
+                if (exp >= 10000) {
                     // 5 - 1) exp 업데이트 하기(exp 10000 빼기, level + 1)
                     paymentService.updateExpMinus(item.getUserIdx());
 
@@ -136,7 +135,7 @@ public class PaymentController {
 
             }
 
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResponseDto(HttpStatus.NO_CONTENT.value(), FAIL, null));
         }
@@ -146,31 +145,31 @@ public class PaymentController {
     }
 
     @GetMapping("/{userIdx}")
-    public ResponseEntity<ResponseDto> getPaymentList(@PathVariable("userIdx") String userIdx) throws Exception{
+    public ResponseEntity<ResponseDto> getPaymentList(@PathVariable("userIdx") String userIdx) throws Exception {
         List<PaymentItem> list = null;
 
-        try{
+        try {
             // userIdx로 payment 받아오기
             list = paymentService.getPaymentList(Integer.parseInt(userIdx));
 
-            for(PaymentItem item : list){
+            for (PaymentItem item : list) {
                 // 요일 받아오기
                 int weekday = paymentService.getWeekDay(item.getDate());
                 String weekdayString = "";
 
-                if(weekday == 0){
+                if (weekday == 0) {
                     weekdayString = "월";
-                } else if(weekday == 1){
+                } else if (weekday == 1) {
                     weekdayString = "화";
-                } else if(weekday == 2){
+                } else if (weekday == 2) {
                     weekdayString = "수";
-                } else if(weekday == 3){
+                } else if (weekday == 3) {
                     weekdayString = "목";
-                } else if(weekday == 4){
+                } else if (weekday == 4) {
                     weekdayString = "금";
-                } else if(weekday == 5){
+                } else if (weekday == 5) {
                     weekdayString = "토";
-                } else if(weekday == 6){
+                } else if (weekday == 6) {
                     weekdayString = "일";
                 }
 
@@ -180,17 +179,14 @@ public class PaymentController {
                 List<PaymentDetailItem> detailList = paymentService.getPaymentDetail(item.getPaymentIdx());
 
                 // 쓰레기 카테고리 구하기
-                for(PaymentDetailItem detailItem : detailList){
-                    if(detailItem.getTrashIdx() == 1){
+                for (PaymentDetailItem detailItem : detailList) {
+                    if (detailItem.getTrashIdx() == 1) {
                         detailItem.setCategory("일반쓰레기");
-                    }
-                    else if(detailItem.getTrashIdx() == 2){
+                    } else if (detailItem.getTrashIdx() == 2) {
                         detailItem.setCategory("음식물쓰레기");
-                    }
-                    else if(detailItem.getTrashIdx() == 3){
+                    } else if (detailItem.getTrashIdx() == 3) {
                         detailItem.setCategory("플라스틱");
-                    }
-                    else if(detailItem.getTrashIdx() == 4){
+                    } else if (detailItem.getTrashIdx() == 4) {
                         detailItem.setCategory("캔");
                     }
                 }
@@ -198,7 +194,7 @@ public class PaymentController {
                 item.setDetails(detailList);
             }
 
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResponseDto(HttpStatus.NO_CONTENT.value(), FAIL, null));
         }
@@ -207,4 +203,19 @@ public class PaymentController {
     }
 
 
+    @PostMapping("/updateStatus")
+    public ResponseEntity<ResponseDto> updatePaymentStatus(@RequestBody PaymentStatusItem paymentStatusItem) throws Exception {
+
+        try {
+
+            paymentService.updatePaymentStatus(paymentStatusItem);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResponseDto(HttpStatus.NO_CONTENT.value(), FAIL, null));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, null));
+
+
+    }
 }

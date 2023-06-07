@@ -2,6 +2,7 @@ package com.saessak.momo.payment.model.service;
 
 import com.saessak.momo.payment.dto.PaymentDetailItem;
 import com.saessak.momo.payment.dto.PaymentItem;
+import com.saessak.momo.payment.dto.PaymentStatusItem;
 import com.saessak.momo.payment.dto.TotalPriceItem;
 import com.saessak.momo.payment.model.mapper.PaymentMapper;
 import com.saessak.momo.trash.dto.TrashHistoryItem;
@@ -96,5 +97,10 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public List<PaymentDetailItem> getPaymentDetail(int paymentIdx) throws Exception {
         return paymentMapper.getPaymentDetail(paymentIdx);
+    }
+
+    @Override
+    public void updatePaymentStatus(PaymentStatusItem paymentStatusItem) throws Exception {
+        paymentMapper.updatePaymentStatus(paymentStatusItem);
     }
 }
