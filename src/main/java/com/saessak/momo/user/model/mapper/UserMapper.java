@@ -16,4 +16,6 @@ public interface UserMapper {
     UserDto selectUser(Map<String, String> form) throws SQLException;
 
     int selectTreeCategory() throws SQLException;
+
+    UserDto findUserByUserIdx(Map<String, String> param) throws SQLException;
 }

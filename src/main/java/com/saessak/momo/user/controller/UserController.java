@@ -19,6 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
     private static final String SUCCESS = "SUCCESS";
+    private static final String FAIL = "FAIL";
     private final UserService userService;
 
     @PostMapping("/signup")
@@ -49,6 +50,24 @@ public class UserController {
     }
 
     /**
+     * 비밀번호 검증
+     * userIdx, password
+     */
+    @PostMapping("/check")
+    public ResponseEntity<ResponseDto> checkPwd(@RequestBody Map<String, String> param) throws Exception {
+        boolean checkValue = userService.checkUserByPwd(param);
+
+        if (checkValue) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, null));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDto(HttpStatus.UNAUTHORIZED.value(), FAIL, null));
+        }
+
+    }
+
+    /**
      * 쓰레기 분리수거 완료
      * userIdx, type, weight
      */
@@ -59,4 +78,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, null));
     }
+
+
 }

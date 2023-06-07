@@ -29,4 +29,10 @@
           FROM user
          WHERE user_id = #{userId}
     </select>
+
+    <select id="findUserByUserIdx" parameterType="map" resultType="userDto">
+        SELECT *
+          FROM user
+         WHERE user_idx = #{userIdx}
+    </select>
 </mapper>

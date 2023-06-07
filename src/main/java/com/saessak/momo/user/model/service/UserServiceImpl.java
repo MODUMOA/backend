@@ -66,4 +66,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public boolean checkUserByPwd(Map<String, String> param) throws Exception {
+        UserDto findUser = userMapper.findUserByUserIdx(param);
+
+        if (findUser != null && param.get("password").equals(findUser.getUserPwd())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

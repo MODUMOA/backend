@@ -11,4 +11,6 @@ public interface UserService {
     UserDto login(Map<String, String> form) throws Exception;
 
     void todayThrowTrash(Map<String, String> param) throws Exception;
+
+    boolean checkUserByPwd(Map<String, String> param) throws Exception;
 }
