@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -26,7 +23,12 @@ public class TrashController {
     private final TrashSerivce trashSerivce;
 
     @GetMapping()
-    public ResponseEntity<ResponseDto> getDashboardInfo(@RequestBody TrashParam param) throws Exception{
+    public ResponseEntity<ResponseDto> getDashboardInfo(@RequestParam int userIdx, @RequestParam int trashIdx) throws Exception{
+
+        TrashParam param = new TrashParam();
+        param.setUserIdx(userIdx);
+        param.setTrashIdx(trashIdx);
+
         DashboardItem dashboardItem = new DashboardItem();
 
         try{
