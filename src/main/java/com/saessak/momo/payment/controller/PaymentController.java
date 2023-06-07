@@ -2,6 +2,7 @@ package com.saessak.momo.payment.controller;
 
 import com.saessak.momo.global.dto.ResponseDto;
 import com.saessak.momo.payment.dto.PaymentDetailItem;
+import com.saessak.momo.payment.dto.PaymentItem;
 import com.saessak.momo.payment.dto.TotalPriceItem;
 import com.saessak.momo.payment.model.service.PaymentService;
 import com.saessak.momo.trash.dto.TrashHistoryItem;
@@ -10,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -143,6 +142,67 @@ public class PaymentController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, null));
+
+    }
+
+    @GetMapping("/{userIdx}")
+    public ResponseEntity<ResponseDto> getPaymentList(@PathVariable("userIdx") String userIdx) throws Exception{
+        List<PaymentItem> list = null;
+
+        try{
+            // userIdx로 payment 받아오기
+            list = paymentService.getPaymentList(Integer.parseInt(userIdx));
+
+            for(PaymentItem item : list){
+                // 요일 받아오기
+                int weekday = paymentService.getWeekDay(item.getDate());
+                String weekdayString = "";
+
+                if(weekday == 0){
+                    weekdayString = "월";
+                } else if(weekday == 1){
+                    weekdayString = "화";
+                } else if(weekday == 2){
+                    weekdayString = "수";
+                } else if(weekday == 3){
+                    weekdayString = "목";
+                } else if(weekday == 4){
+                    weekdayString = "금";
+                } else if(weekday == 5){
+                    weekdayString = "토";
+                } else if(weekday == 6){
+                    weekdayString = "일";
+                }
+
+                item.setWeekday(weekdayString);
+
+                // details 받아오기
+                List<PaymentDetailItem> detailList = paymentService.getPaymentDetail(item.getPaymentIdx());
+
+                // 쓰레기 카테고리 구하기
+                for(PaymentDetailItem detailItem : detailList){
+                    if(detailItem.getTrashIdx() == 1){
+                        detailItem.setCategory("일반쓰레기");
+                    }
+                    else if(detailItem.getTrashIdx() == 2){
+                        detailItem.setCategory("음식물쓰레기");
+                    }
+                    else if(detailItem.getTrashIdx() == 3){
+                        detailItem.setCategory("플라스틱");
+                    }
+                    else if(detailItem.getTrashIdx() == 4){
+                        detailItem.setCategory("캔");
+                    }
+                }
+
+                item.setDetails(detailList);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResponseDto(HttpStatus.NO_CONTENT.value(), FAIL, null));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, list));
 
     }
 

@@ -1,6 +1,7 @@
 package com.saessak.momo.payment.model.service;
 
 import com.saessak.momo.payment.dto.PaymentDetailItem;
+import com.saessak.momo.payment.dto.PaymentItem;
 import com.saessak.momo.payment.dto.TotalPriceItem;
 import com.saessak.momo.trash.dto.TrashHistoryItem;
 import com.saessak.momo.user.dto.UserExpItem;
@@ -46,4 +47,13 @@ public interface PaymentService {
 
     // tree_collection UPDATE 하기
     void updateTreeCollection(int userIdx) throws Exception;
+
+    // payment list
+    List<PaymentItem> getPaymentList(int userIdx) throws Exception;
+
+    // 요일 얻어오기
+    int getWeekDay(String date) throws Exception;
+
+    // paymentDetail 받아오기
+    List<PaymentDetailItem> getPaymentDetail(int paymentIdx) throws Exception;
 }
