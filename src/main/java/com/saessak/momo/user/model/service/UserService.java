@@ -13,4 +13,6 @@ public interface UserService {
     void todayThrowTrash(Map<String, String> param) throws Exception;
 
     boolean checkUserByPwd(Map<String, String> param) throws Exception;
+
+    UserDto findUserByUserIdx(int userIdx) throws Exception;
 }

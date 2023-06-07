@@ -1,11 +1,14 @@
 package com.saessak.momo.user.controller;
 
 import com.saessak.momo.global.dto.ResponseDto;
+import com.saessak.momo.trash.dto.WeeklyEmissionParam;
+import com.saessak.momo.trash.model.service.TrashSerivce;
 import com.saessak.momo.user.dto.SignupForm;
 import com.saessak.momo.user.dto.UserDto;
 import com.saessak.momo.user.model.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,7 @@ public class UserController {
     private static final String SUCCESS = "SUCCESS";
     private static final String FAIL = "FAIL";
     private final UserService userService;
+    private final TrashSerivce trashSerivce;
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signup(@RequestBody UserDto form) throws Exception {
@@ -42,8 +46,47 @@ public class UserController {
         result.put("userId", loginUser.getUserId());
         result.put("nickname", loginUser.getNickName());
         result.put("userName", loginUser.getUserName());
-        result.put("level", loginUser.getLevel());
-        result.put("exp", loginUser.getExp());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
+    }
+
+    /**
+     * 사용자 레벨, 경험치, 탄소배출량
+     */
+    @GetMapping("/info/{user_idx}")
+    public ResponseEntity<ResponseDto> getUserStatus(@PathVariable("user_idx") int userIdx) throws Exception {
+        UserDto findUser = userService.findUserByUserIdx(userIdx);
+        int sum = 0;
+
+        // 1. 일주일 배출량
+        int[] weeks = new int[7];
+        WeeklyEmissionParam weeklyEmissionParam = new WeeklyEmissionParam();
+        weeklyEmissionParam.setUserIdx(userIdx);
+
+        // 1 - 1) 오늘 요일 구하기
+        int today = trashSerivce.getNowDay();
+
+        // 1 - 2) today + 1 만큼 반복문 돌리기
+        for (int idx = 1; idx <= 3; idx++) {
+            weeklyEmissionParam.setTrashIdx(idx);
+            double value = idx == 3 ? 2.75 : 1.08;
+
+            for(int i = today; i >= 0; i--){
+                weeklyEmissionParam.setDateSub(today - i);
+                weeks[i] = trashSerivce.getWeeklyEmission(weeklyEmissionParam);
+            }
+
+            // 3. 총 합
+            for(int i = 0; i < 7; i++) {
+                sum += weeks[i] * value;
+            }
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("level", findUser.getLevel());
+        result.put("exp", (int) Math.ceil(findUser.getExp() / 100));
+        result.put("weeklyEmission", sum);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
