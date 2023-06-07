@@ -26,5 +26,4 @@ public interface TrashMapper {
 
     void insertTodayThrowTrash(Map<String, String> param) throws SQLException;
 
-
 }

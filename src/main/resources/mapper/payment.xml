@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.saessak.momo.payment.model.mapper.PaymentMapper">
+
+    <select id="getTodayUsers" resultType="int">
+        select      user_idx
+        from        trash_history
+        where       date = curdate()
+        group by    user_idx;
+    </select>
+
+    <insert id="createPayment" parameterType="int">
+        insert into payment (
+            user_idx, total_price, status, date
+        ) values (
+            #{userIdx}, 0, 0, curdate()
+        )
+    </insert>
+
+    <select id="getTrashHistory" resultType="trashHistoryItem">
+        select      trash_history_idx   as trashHistoryIdx
+                  , user_idx            as userIdx
+                  , trash_idx           as trashIdx
+                  , trash_weight        as trashWeight
+                  , date                as date
+
+        from        trash_history
+
+        where       date = curdate()
+    </select>
+
+    <select id="getPaymentIdx" resultType="int">
+        select      payment_idx
+        from        payment
+        where       user_idx = #{userIdx}
+                and date = curdate();
+    </select>
+
+    <select id="getTrashPrice" resultType="double">
+        select      trash_price
+        from        trash_dictionary
+        where       trash_idx = #{trashIdx};
+
+    </select>
+
+    <insert id="createPaymentDetail" parameterType="paymentDetailItem">
+        insert into payment_detail (
+                payment_idx, trash_idx, trash_weight, price
+        ) values (
+                #{paymentIdx}, #{trashIdx}, #{trashWeight}, #{price}
+        )
+
+    </insert>
+
+    <update id="updateTotalPrice" parameterType="totalPriceItem">
+        update      payment
+        set
+                    total_price = total_price + #{price}
+        where
+                    payment_idx = #{paymentIdx};
+    </update>
+
+    <select id="getTrashHistoryByIdx" parameterType="int" resultType="trashHistoryItem">
+        select     trash_history_idx   as trashHistoryIdx
+                 , user_idx            as userIdx
+                 , trash_idx           as trashIdx
+                 , trash_weight        as trashWeight
+                 , date                as date
+
+        from       trash_history
+        where      user_idx = #{userIdx}
+               and trash_idx = #{trashIdx}
+        order by   date desc
+        limit 2;
+
+    </select>
+
+    <update id="updateUserExp" parameterType="userExpItem">
+        update      user
+        set
+                    exp = exp + #{exp}
+        where
+                    user_idx = #{userIdx}
+    </update>
+
+    <select id="getDateDiff" parameterType="String" resultType="int">
+        select      datediff( #{date1}, #{date2} );
+    </select>
+
+    <select id="getUserExp" parameterType="int" resultType="int">
+        select      exp
+        from        user
+        where       user_idx = #{userIdx};
+    </select>
+
+    <update id="updateExpMinus" parameterType="int">
+        update      user
+        set
+                    exp = exp - 10000
+                  , level = level + 1;
+        where
+                    user_idx = #{userIdx};
+    </update>
+
+    <update id="updateTreeCollection" parameterType="int">
+        update      tree_collection
+        set
+                    count = count + 1
+        where
+                    user_idx = #{userIdx}
+                and tree_idx = 1;
+    </update>
+
+</mapper>

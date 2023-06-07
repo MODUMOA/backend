@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TrashServiceImpl implements TrashSerivce {
     private final TrashMapper trashMapper;
+
     @Override
     public int getNowDay() throws Exception {
         return trashMapper.getNowDay();
