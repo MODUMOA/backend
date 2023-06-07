@@ -1,6 +1,7 @@
 package com.saessak.momo.payment.model.service;
 
 import com.saessak.momo.payment.dto.PaymentDetailItem;
+import com.saessak.momo.payment.dto.PaymentItem;
 import com.saessak.momo.payment.dto.TotalPriceItem;
 import com.saessak.momo.payment.model.mapper.PaymentMapper;
 import com.saessak.momo.trash.dto.TrashHistoryItem;
@@ -80,5 +81,20 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public void updateTreeCollection(int userIdx) throws Exception {
         paymentMapper.updateTreeCollection(userIdx);
+    }
+
+    @Override
+    public List<PaymentItem> getPaymentList(int userIdx) throws Exception {
+        return paymentMapper.getPaymentList(userIdx);
+    }
+
+    @Override
+    public int getWeekDay(String date) throws Exception {
+        return paymentMapper.getWeekDay(date);
+    }
+
+    @Override
+    public List<PaymentDetailItem> getPaymentDetail(int paymentIdx) throws Exception {
+        return paymentMapper.getPaymentDetail(paymentIdx);
     }
 }

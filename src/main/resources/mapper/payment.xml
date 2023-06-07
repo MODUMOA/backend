@@ -113,4 +113,31 @@
                 and tree_idx = 1;
     </update>
 
+    <select id="getPaymentList" resultType="paymentItem">
+        select      payment_idx     as paymentIdx
+                  , total_price     as totalPrice
+                  , status          as status
+                  , date            as date
+        from
+                    payment
+        where
+                    user_idx = #{userIdx}
+    </select>
+
+    <select id="getWeekDay" resultType="int">
+        select      weekday( #{date} )
+    </select>
+
+    <select id="getPaymentDetail" resultType="paymentDetailItem">
+        select      payment_detail_idx  as paymentDetailIdx
+                  , payment_idx         as paymentIdx
+                  , trash_idx           as trashIdx
+                  , trash_weight        as trashWeight
+                  , price               as price
+        from
+                    payment_detail
+        where
+                    payment_idx = #{paymentIdx};
+    </select>
+
 </mapper>
