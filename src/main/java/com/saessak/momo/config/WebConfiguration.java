@@ -12,7 +12,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:8080", "http://localhost:8081", "http://43.202.34.154", "http://10.0.2.2:8080"
-                                ,"http://192.168.0.178:8081", "https://43.202.34.154", "http://modumoa.shop", "https://modumoa.shop") // 나중에 AWS 주소 추가해야함
+                                ,"http://192.168.0.178:8080", "https://43.202.34.154", "http://modumoa.shop", "https://modumoa.shop") // 나중에 AWS 주소 추가해야함
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true)
