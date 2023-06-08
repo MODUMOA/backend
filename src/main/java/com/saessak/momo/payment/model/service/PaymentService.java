@@ -50,7 +50,7 @@ public interface PaymentService {
     void updateTreeCollection(int userIdx) throws Exception;
 
     // payment list
-    List<PaymentItem> getPaymentList(int userIdx) throws Exception;
+    List<PaymentItem> getPaymentList(int userIdx, int offset) throws Exception;
 
     // 요일 얻어오기
     int getWeekDay(String date) throws Exception;

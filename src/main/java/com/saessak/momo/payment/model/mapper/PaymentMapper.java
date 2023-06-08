@@ -53,7 +53,7 @@ public interface PaymentMapper {
     void updateTreeCollection(int userIdx) throws Exception;
 
     // payment list
-    List<PaymentItem> getPaymentList(int userIdx) throws Exception;
+    List<PaymentItem> getPaymentList(@Param("userIdx") int userIdx, @Param("offset") int offset) throws Exception;
 
     // 요일 얻어오기
     int getWeekDay(String date) throws Exception;
