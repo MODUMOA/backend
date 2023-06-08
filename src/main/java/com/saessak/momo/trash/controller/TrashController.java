@@ -106,7 +106,11 @@ public class TrashController {
             }
 
             // 5 - 4) prevPercent 구하기
-            int prevPercent = (int)((double)prevEmission / (double)prevPrevEmission * 100) - 100;
+            int prevPercent = 0;
+
+            if(prevEmission != 0 && prevPrevEmission != 0){
+                prevPercent = (int)((double)prevEmission / (double)prevPrevEmission * 100) - 100;
+            }
 
             dashboardItem.setPrevPercent(prevPercent);
             dashboardItem.setPrevPercentStatus(prevPercentStatus);
@@ -131,7 +135,11 @@ public class TrashController {
                 avgPercentStatus = true;
             }
 
-            int avgPercent = (int)((double)prevEmission / (double)seoulAvg * 100) - 100;
+            int avgPercent = 0;
+
+            if(prevEmission != 0){
+                avgPercent = (int)((double)prevEmission / (double)seoulAvg * 100) - 100;
+            }
 
             dashboardItem.setAvgPercent(avgPercent);
             dashboardItem.setAvgPercentStatus(avgPercentStatus);
