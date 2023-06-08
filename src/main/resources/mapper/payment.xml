@@ -122,6 +122,7 @@
                     payment
         where
                     user_idx = #{userIdx}
+        order by 	date desc
         limit       3
         offset      #{offset}
     </select>
