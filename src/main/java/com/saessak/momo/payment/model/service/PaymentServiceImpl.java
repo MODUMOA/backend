@@ -85,8 +85,8 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
-    public List<PaymentItem> getPaymentList(int userIdx) throws Exception {
-        return paymentMapper.getPaymentList(userIdx);
+    public List<PaymentItem> getPaymentList(int userIdx, int offset) throws Exception {
+        return paymentMapper.getPaymentList(userIdx, offset);
     }
 
     @Override

@@ -122,6 +122,8 @@
                     payment
         where
                     user_idx = #{userIdx}
+        limit       3
+        offset      #{offset}
     </select>
 
     <select id="getWeekDay" resultType="int">
