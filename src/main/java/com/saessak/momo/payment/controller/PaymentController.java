@@ -144,13 +144,13 @@ public class PaymentController {
 
     }
 
-    @GetMapping("/{userIdx}")
-    public ResponseEntity<ResponseDto> getPaymentList(@PathVariable("userIdx") String userIdx, @RequestParam int page) throws Exception {
+    @GetMapping("/{userIdx}/{page}")
+    public ResponseEntity<ResponseDto> getPaymentList(@PathVariable("userIdx") String userIdx, @PathVariable("page") String page) throws Exception {
         List<PaymentItem> list = null;
 
         try {
             // userIdx로 payment 받아오기
-            int offset = (page - 1) * 3;
+            int offset = (Integer.parseInt(page) - 1) * 3;
             list = paymentService.getPaymentList(Integer.parseInt(userIdx), offset);
 
             for (PaymentItem item : list) {
