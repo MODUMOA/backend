@@ -18,4 +18,6 @@ public interface UserMapper {
     int selectTreeCategory() throws SQLException;
 
     UserDto findUserByUserIdx(String userIdx) throws SQLException;
+
+    int findUserByUserId(String userId) throws SQLException;
 }

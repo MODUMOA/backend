@@ -51,6 +51,14 @@ public class UserController {
                 .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
     }
 
+    @GetMapping("/checkDuplicateId/{userId}")
+    public ResponseEntity<ResponseDto> checkId(@PathVariable String userId) throws Exception {
+
+        boolean result = userService.findUserByUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
+    }
+
     /**
      * 사용자 레벨, 경험치, 탄소배출량
      */

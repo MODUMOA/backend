@@ -15,4 +15,6 @@ public interface UserService {
     boolean checkUserByPwd(Map<String, String> param) throws Exception;
 
     UserDto findUserByUserIdx(int userIdx) throws Exception;
+
+    boolean findUserByUserId(String userId) throws Exception;
 }

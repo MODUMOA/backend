@@ -82,4 +82,16 @@ public class UserServiceImpl implements UserService {
         return userMapper.findUserByUserIdx(String.valueOf(userIdx));
     }
 
+    @Override
+    public boolean findUserByUserId(String userId) throws Exception {
+
+        int cnt = userMapper.findUserByUserId(userId);
+
+        if (cnt > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
