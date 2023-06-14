@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -42,14 +43,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto login(Map<String, String> form) throws Exception {
-        log.info("form={}", form);
         UserDto findUser = userMapper.selectUser(form);
 
         if (findUser == null || !findUser.getUserPwd().equals(form.get("userPwd"))) {
             return null;
         }
 
+        // UUID 밀어 넣기
+        String token = UUID.randomUUID().toString();
+        findUser.setToken(token);
+        userMapper.updateToken(findUser);
+
         return findUser;
+    }
+
+    @Override
+    public UserDto authLogin(String token) throws Exception {
+        return userMapper.findUserByToken(token);
+    }
+
+    @Override
+    public void logout(String userIdx) throws Exception {
+        userMapper.deleteTokenByUserIdx(userIdx);
     }
 
     @Override
@@ -93,5 +108,6 @@ public class UserServiceImpl implements UserService {
 
         return true;
     }
+
 
 }

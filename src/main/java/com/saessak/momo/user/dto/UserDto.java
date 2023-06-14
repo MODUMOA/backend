@@ -9,6 +9,8 @@ public class UserDto {
     private String userPwd;
     private String nickName;
     private String userName;
+    private String token;
+
     private int level;
     private int exp;
 }

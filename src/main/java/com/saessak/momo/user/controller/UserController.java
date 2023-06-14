@@ -46,9 +46,38 @@ public class UserController {
         result.put("userId", loginUser.getUserId());
         result.put("nickname", loginUser.getNickName());
         result.put("userName", loginUser.getUserName());
+        result.put("token", loginUser.getToken());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
+    }
+
+    @PostMapping("/authLogin")
+    public ResponseEntity<ResponseDto> authLogin(@RequestBody String token) throws Exception {
+        UserDto loginUser = userService.authLogin(token);
+
+        if (loginUser == null) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDto(HttpStatus.OK.value(), FAIL, null));
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("userIdx", loginUser.getUserIdx());
+        result.put("userId", loginUser.getUserId());
+        result.put("nickname", loginUser.getNickName());
+        result.put("userName", loginUser.getUserName());
+        result.put("token", loginUser.getToken());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
+    }
+
+    @GetMapping("/logout/{userIdx}")
+    public ResponseEntity<ResponseDto> logout(@PathVariable String userIdx) throws Exception {
+        userService.logout(userIdx);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, null));
     }
 
     @GetMapping("/checkDuplicateId/{userId}")

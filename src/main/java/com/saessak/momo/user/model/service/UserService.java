@@ -17,4 +17,8 @@ public interface UserService {
     UserDto findUserByUserIdx(int userIdx) throws Exception;
 
     boolean findUserByUserId(String userId) throws Exception;
+
+    UserDto authLogin(String token) throws Exception;
+
+    void logout(String userIdx) throws Exception;
 }

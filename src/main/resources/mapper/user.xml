@@ -41,4 +41,22 @@
         FROM user
         WHERE user_id = #{userId}
     </select>
+
+    <select id="findUserByToken" parameterType="string" resultType="userDto">
+        SELECT *
+        FROM user
+        WHERE token = #{token}
+    </select>
+
+    <update id="updateToken" parameterType="userDto">
+        UPDATE user
+           SET token = #{token}
+         WHERE user_idx = #{userIdx}
+    </update>
+
+    <update id="deleteTokenByUserIdx" parameterType="string">
+        UPDATE user
+           SET token = ""
+         WHERE user_idx = #{userIdx}
+    </update>
 </mapper>
