@@ -53,9 +53,8 @@ public class UserController {
     }
 
     @PostMapping("/autoLogin")
-    public ResponseEntity<ResponseDto> authLogin(@RequestBody String token) throws Exception {
-        UserDto loginUser = userService.autoLogin(token);
-
+    public ResponseEntity<ResponseDto> authLogin(@RequestBody Map<String, String> param) throws Exception {
+        UserDto loginUser = userService.autoLogin(param.get("token"));
         if (loginUser == null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(new ResponseDto(HttpStatus.NO_CONTENT.value(), FAIL, null));
