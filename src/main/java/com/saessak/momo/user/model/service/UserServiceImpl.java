@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto authLogin(String token) throws Exception {
+    public UserDto autoLogin(String token) throws Exception {
         return userMapper.findUserByToken(token);
     }
 
