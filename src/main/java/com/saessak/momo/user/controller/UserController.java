@@ -52,7 +52,7 @@ public class UserController {
                 .body(new ResponseDto(HttpStatus.OK.value(), SUCCESS, result));
     }
 
-    @PostMapping("/authLogin")
+    @PostMapping("/autoLogin")
     public ResponseEntity<ResponseDto> authLogin(@RequestBody String token) throws Exception {
         UserDto loginUser = userService.authLogin(token);
 
